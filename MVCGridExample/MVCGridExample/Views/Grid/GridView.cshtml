@@ -1,0 +1,116 @@
+﻿@model MVCGridExample.Models.GridModelList
+
+<script src="~/scripts/Grid/jquery-1.12.4.js"></script>
+<script src="~/scripts/Grid/jquery.dataTables.min.js"></script>
+<script src="~/scripts/Grid/jszip.min.js"></script>
+<script src="~/scripts/Grid/dataTables.buttons.min.js"></script>
+<script src="~/scripts/Grid/buttons.html5.min.js"></script>
+<script src="~/scripts/Grid/jquery-ui.min.js"></script>
+<link href="~/Content/Gridmvc.css" rel="stylesheet" />
+<link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
+<style>
+    .sorting {
+        background-image: url('../../images/sort_both.png') !important;
+        background-size: contain !important;
+        padding: 1px !important;
+    }
+    .sorting_asc {
+        background-image: url("../../images/sort_asc.png") !important;
+        background-size: contain !important;
+    }
+    .sorting_desc {
+        background-image: url("../../images/sort_desc.png") !important;
+        background-size: contain !important;
+    }
+    .e-grid {
+        font-family: cursive;
+    }
+
+    .e-grid .e-row:hover .e-rowcell {
+        background-color: rgb(204, 229, 255) !important;
+    }
+
+    .e-grid .e-rowcell.e-selectionbackground {
+        background-color: rgb(230, 230, 250);
+    }
+
+    .e-grid .e-row.e-altrow {
+        background-color: rgb(150, 212, 212);
+    }
+
+    .e-grid .e-row {
+        background-color: rgb(180, 180, 180);
+    }
+    .button-15 {
+        background-image: linear-gradient(#42A1EC, #0070C9);
+        border: 1px solid #0077CC;
+        border-radius: 4px;
+        box-sizing: border-box;
+        color: #FFFFFF;
+        cursor: pointer;
+        direction: ltr;
+        display: block;
+        font-family: "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 17px;
+        font-weight: 400;
+        letter-spacing: -.022em;
+        line-height: 1.47059;
+        min-width: 30px;
+        overflow: visible;
+        padding: 4px 15px;
+        text-align: center;
+        vertical-align: baseline;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        white-space: nowrap;
+    }
+</style>
+
+@if (@Model != null)
+{
+    <br />
+    <br />
+
+    <table id="tblGrid" class="e-row" style="border-style:groove !important;border-spacing:1px !important">
+        <thead style="background-color:darkcyan !important">
+            <tr>
+                <th>No</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody style="border-style:groove !important;">
+
+            @foreach (var data in @Model.GridData)
+            {
+                <tr >
+                    <td>@data.Id </td>
+                    <td>@data.Name </td>
+                    <td>@data.Desc </td>
+                    <td>@data.Date </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+}
+
+<script>
+
+    $(document).ready(function () {
+        gridDataTableView("ExcelReportViewer.xls");
+    });
+
+    gridDataTableView = function (fname) {
+        $('#tblGrid').dataTable({
+            "bFilter": true,
+            "bLengthChange": false, "bPaginate": true, "bInfo": true, "bSorting": true,
+            dom: 'Bfrtip',
+            //"order": [[0, 'desc'], [1, 'desc']],
+            buttons: [{ extend: 'excelHtml5', text: 'Export to Excel', className: 'button-15 link_button', title: fname }]
+        });
+    }
+</script>
+
